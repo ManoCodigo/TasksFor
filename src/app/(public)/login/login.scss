@@ -1,0 +1,60 @@
+@import '../../utils/mixins-utils.scss';
+
+section {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    width: 100%;
+    max-width: rem(400);
+    margin: rem(0) rem(20);
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: rem(20);
+      padding: rem(30) rem(10) rem(15);
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
+      background-color: var(--bg-color-white-opacity-90);
+
+      h1 {
+        text-align: center;
+      }
+
+      .form-login {
+        display: flex;
+        flex-direction: column;
+        gap: rem(15);
+      }
+  
+      .group-input {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+  
+        @include input-default;
+      }
+    }
+
+    button {
+      width: 95%;
+      font-family: var(--font-mono);
+      text-align: center;
+      text-transform: uppercase;
+      color: var(--black-default);
+      padding: rem(10);
+      cursor: pointer;
+      background-color: var(--bg-color-white-opacity-40);
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+      
+      &:hover {
+        background-color: var(--bg-color-white-opacity-60);
+      }
+    }
+  }
+}

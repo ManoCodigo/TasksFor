@@ -1,8 +1,11 @@
-@import 'utils/mixins-utils.scss';
+@import './utils/mixins-utils.scss';
 
 :root {
   --max-width: 920px;
+
   --border-radius: 12px;
+  --border-radius-input: 6px;
+
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
@@ -50,4 +53,8 @@ li {
 
 a {
   text-decoration: none;
+}
+
+input, button {
+  all: unset;
 }

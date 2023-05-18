@@ -1,6 +1,6 @@
 "use client";
-
-import { useRouter } from "next/navigation"
+import "./login.scss";
+import { useRouter } from "next/navigation";
 
 export const metadata = {
   title: 'Login | TasksFor',
@@ -12,17 +12,27 @@ export default function LoginPage() {
 
   return (
     <>
-      <form onSubmit={(e) => {router.push('/'); e.preventDefault();}}>
-        <div>
-          <label>Email:</label>
-          <input type="text" />
-            <br />
-          <label>Senha:</label>
-          <input type="text" />
-            <br />
+      <section>
+        <form onSubmit={(e) => {router.push('/'); e.preventDefault();}}>
+          <div className="form-container">
+            <h1>LOGIN</h1>
+            <div className="form-login">
+
+              <div className="group-input">
+                <label>Email:</label>
+                <input type="text" />
+              </div>
+              <div className="group-input">
+                <label>Senha:</label>
+                <input type="text" />
+              </div>
+              
+            </div>
+          </div>
+
           <button type="submit">Logar</button>
-        </div>
-      </form>
+        </form>
+      </section>
     </>
   )
 }
