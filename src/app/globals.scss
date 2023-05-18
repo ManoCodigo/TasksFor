@@ -1,0 +1,52 @@
+@import 'utils/mixins-utils.scss';
+
+:root {
+  --max-width: 920px;
+  --border-radius: 12px;
+  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
+    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
+    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+
+  --black-default: #000;
+  --white-default: #fff;
+    
+  --bg-color-white-opacity-40: #ffffff40;
+  --bg-color-white-opacity-90: #ffffff90;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  transition: .3s;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  background: 
+    radial-gradient(ellipse at right top, #61afff59, transparent),
+    radial-gradient(ellipse at left bottom, #ee92ff59, #0113ef00),
+    radial-gradient(ellipse at right bottom, #c6ffc359, #7e7e7e00),
+    radial-gradient(ellipse at center, #ffffff, #ffffff);
+}
+
+header, main, footer {
+  max-width: rem(920);
+  margin: auto;
+  padding: rem(20);
+}
+
+h1 {
+  font-family: var(--font-mono);
+  font-size: rem(60);
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
