@@ -1,6 +1,12 @@
 "use client";
-import Link from "next/link";
-import { getUsers } from "../services/users-service"
+import './user.scss';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquare, faCheckSquare } from '@fortawesome/free-regular-svg-icons';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+library.add(fas);
 
 export const metadata = {
   title: 'Equipe | TasksFor',
@@ -8,17 +14,66 @@ export const metadata = {
 }
 
 export default async function UsersPage() {
-  const users = await getUsers();
 
   return (
     <>
-      <p>Pagina de lista de Users</p>
-      <h1>Sua Equipe:</h1>
-      <ul>
-        {users.map((user: any) => <li key={user.id}>
-          <Link href={`/users/${user.id}`}> {user.first_name} {user.last_name} </Link>
-        </li>)}
-      </ul>
+      <section className="container-title">
+        <h2>Sua Equipe</h2>
+        <button>
+          <FontAwesomeIcon icon="plus"/>
+        </button>
+      </section>
+      <section className="container-list-user">
+
+        <div className="box-card">
+          <div className="card-info">
+            <p>Lucas Brandão</p>
+            <p><strong>• Email:</strong> lucas@mail.com</p>
+            <p><strong>• Setor:</strong> Desenvolvimento</p>
+            <p><strong>• Permissão:</strong> Administrador</p>
+            <p>
+              <strong>• Tarefas:</strong> 
+              <span>
+                <FontAwesomeIcon icon={faSquare}/>
+                <span>10</span>
+              </span>
+              <span>
+                <FontAwesomeIcon icon={faCheckSquare}/>
+                <span>10</span>
+              </span>
+            </p>
+          </div>
+          <div className="card-actions">
+            <button>Excluir Usuário</button>
+            <button>Editar Usuário</button>
+          </div>
+        </div>
+
+        <div className="box-card">
+          <div className="card-info">
+            <p>Davi Tavares</p>
+            <p><strong>• Email:</strong>davi@mail.com</p>
+            <p><strong>• Setor:</strong> Desenvolvimento</p>
+            <p><strong>• Permissão:</strong> Administrador</p>
+            <p>
+              <strong>• Tarefas:</strong> 
+              <span>
+                <FontAwesomeIcon icon={faSquare}/>
+                <span>10</span>
+              </span>
+              <span>
+                <FontAwesomeIcon icon={faCheckSquare}/>
+                <span>10</span>
+              </span>
+            </p>
+          </div>
+          <div className="card-actions">
+            <button>Excluir Usuário</button>
+            <button>Editar Usuário</button>
+          </div>
+        </div>
+
+      </section>
     </>
   )
 }

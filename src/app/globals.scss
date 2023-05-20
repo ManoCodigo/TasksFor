@@ -12,7 +12,10 @@
 
   --black-default: #000;
   --white-default: #fff;
-    
+  
+  --button-color-default: linear-gradient(25deg, #ee92ff39, #61afff39);
+  --button-hover-color: rgba(0, 0, 0, 0.05);
+
   --bg-color-white-opacity-40: #ffffff40;
   --bg-color-white-opacity-60: #ffffff60;
   --bg-color-white-opacity-90: #ffffff90;
@@ -22,7 +25,6 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  transition: .3s;
 }
 
 html,
@@ -42,9 +44,21 @@ header, main, footer {
   padding: rem(20);
 }
 
-h1 {
+h1, h2 {
   font-family: var(--font-mono);
+}
+
+h1 {
   font-size: rem(60);
+}
+
+h2 {
+  font-size: rem(40);
+}
+
+p {
+  font-size: rem(16);
+  font-family: monospace;
 }
 
 li {
@@ -57,4 +71,21 @@ a {
 
 input, button {
   all: unset;
+}
+
+button {
+  font-family: monospace;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: .3s;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: var(--border-radius);
+  padding: rem(10);
+}
+::-webkit-scrollbar {
+  width: rem(5);
+  height: rem(5);
 }

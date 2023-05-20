@@ -2,7 +2,7 @@
 
 //LAYOUT
 header {
-  padding: rem(100) 0 0;
+  padding: rem(70) 0 0;
 
   h1 {
     text-align: center;
@@ -28,6 +28,7 @@ ul {
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
     cursor: pointer;
+    transition: .3s;
 
     &:hover {
       background-color: var(--bg-color-white-opacity-40);

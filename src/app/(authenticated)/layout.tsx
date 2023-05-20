@@ -19,9 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode } )
           <nav>
             <ul>
               <ActiveLinkButton title={'Inicio'} href={'/'} />
+              <ActiveLinkButton title={'Quadro'} href={'/tasks'} />
               <ActiveLinkButton title={'Equipe'} href={'/users'} />
-              <ActiveLinkButton title={'Tarefas'} href={'/tasks'} />
-              <ActiveLinkButton title={'Login'} href={'/login'} />
+              <ActiveLinkButton title={'Logout'} href={'/login'} />
             </ul>
           </nav>
         </header>

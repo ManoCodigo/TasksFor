@@ -1,0 +1,97 @@
+@import '../../utils/mixins-utils.scss';
+
+.container-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: rem(20);
+
+  button {
+    width: rem(40);
+    height: rem(40);
+    font-size: rem(20);
+    background: var(--button-color-default);
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background-color: var(--button-hover-color);
+    }
+  }
+}
+
+.container-list-user {
+  max-height: rem(500);
+  overflow: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: rem(20);
+  border-radius: var(--border-radius);
+  padding-right: rem(10);
+
+  .box-card {
+    background: var(--bg-color-white-opacity-90);
+    border-radius: var(--border-radius);
+
+    .card-info {
+      padding: rem(15);
+
+      p {
+        display: flex;
+        gap: rem(8);
+        align-items: center;
+
+        &:nth-child(1) {
+          font-size: rem(25);
+          letter-spacing: rem(3);
+          margin-bottom: rem(10);
+        }
+
+        span {
+          font-size: rem(20);
+
+          span {
+            margin-left: rem(5);
+          }
+        }
+
+        span + span {
+          margin-left: 10px;
+        }
+      }
+
+      p + p {
+        margin-top: rem(5);
+      }
+    }
+  
+    .card-actions {
+      display: flex;
+      justify-content: space-around;
+      background: var(--button-color-default);
+      border-bottom-left-radius: rem(12);
+      border-bottom-right-radius: rem(12);
+
+      button {
+        flex: 1 1 rem(150);
+        font-size: rem(12);
+        text-align: center;
+        padding: rem(10) 0;
+
+        &:nth-child(1) {
+          border-bottom-left-radius: rem(12);
+        }
+        
+        &:nth-child(2) {
+          border-bottom-right-radius: rem(12);
+        }
+
+        &:hover {
+          background-color: var(--button-hover-color);
+        }
+      }
+    }
+  }
+}
