@@ -1,4 +1,10 @@
 
+@mixin height-content-default {
+  max-height: rem(448);
+  overflow: auto;
+}
+
+
 @mixin glass-efect {
   background: rgba( 255, 255, 255, 0.35 );
   box-shadow: 0 0px 50px rgba( 31, 38, 135, 0.37 );

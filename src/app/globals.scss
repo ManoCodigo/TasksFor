@@ -16,6 +16,8 @@
   --button-color-default: linear-gradient(25deg, #ee92ff39, #61afff39);
   --button-hover-color: rgba(0, 0, 0, 0.05);
 
+  --crud-delete: #c70000;
+
   --bg-color-white-opacity-40: #ffffff40;
   --bg-color-white-opacity-60: #ffffff60;
   --bg-color-white-opacity-90: #ffffff90;
@@ -69,8 +71,9 @@ a {
   text-decoration: none;
 }
 
-input, button {
+input[type="text"], button {
   all: unset;
+  font-family: monospace;
 }
 
 button {
@@ -83,7 +86,6 @@ button {
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.25);
   border-radius: var(--border-radius);
-  padding: rem(10);
 }
 ::-webkit-scrollbar {
   width: rem(5);

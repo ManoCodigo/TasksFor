@@ -23,13 +23,12 @@
 }
 
 .container-list-user {
-  max-height: rem(500);
+  max-height: 550px;
   overflow: auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: rem(20);
   border-radius: var(--border-radius);
-  padding-right: rem(10);
 
   .box-card {
     background: var(--bg-color-white-opacity-90);
@@ -58,7 +57,7 @@
         }
 
         span + span {
-          margin-left: 10px;
+          margin-left: rem(10);
         }
       }
 
@@ -81,11 +80,11 @@
         padding: rem(10) 0;
 
         &:nth-child(1) {
-          border-bottom-left-radius: rem(12);
+          border-bottom-left-radius: var(--border-radius);
         }
         
         &:nth-child(2) {
-          border-bottom-right-radius: rem(12);
+          border-bottom-right-radius: var(--border-radius);
         }
 
         &:hover {
