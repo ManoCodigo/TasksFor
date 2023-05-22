@@ -1,6 +1,11 @@
 "use client";
-import "./login.scss";
+
+import "../login-register.scss";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth } from "../../../../services/firebase";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',
@@ -10,24 +15,40 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const router = useRouter();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
+
+  function logar() {
+    signInWithEmailAndPassword(email, password);
+    router.push('/');
+  }
+
+  if (user)
+    console.log(user)
+  
+  if (loading) 
+    return <p>C A R R E G A N D O . . .</p>
+
   return (
     <>
       <section>
-        <form onSubmit={(e) => {router.push('/'); e.preventDefault();}}>
+        <form onSubmit={(e) => { logar(), e.preventDefault(); }}>
           <div className="form-container">
             <h1>LOGIN</h1>
             <div className="form-login">
 
               <div className="group-input">
                 <label>Email:</label>
-                <input type="text" />
+                <input type="text" onChange={(email) => setEmail(email.target.value)}/>
               </div>
               <div className="group-input">
                 <label>Senha:</label>
-                <input type="text" />
+                <input type="password" onChange={(password) => setPassword(password.target.value)}/>
               </div>
               
             </div>
+            <p onClick={()=> router.push('/register')}>Cadastrar uma nova conta</p>
           </div>
 
           <button type="submit">Logar</button>

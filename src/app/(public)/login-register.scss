@@ -1,4 +1,4 @@
-@import '../../utils/mixins-utils.scss';
+@import '../utils/mixins-utils.scss';
 
 section {
   height: 100%;
@@ -25,6 +25,11 @@ section {
         text-align: center;
       }
 
+      p {
+        text-align: center;
+        cursor: pointer;
+      }
+
       .form-login {
         display: flex;
         flex-direction: column;
@@ -41,7 +46,7 @@ section {
     }
 
     button {
-      width: 95%;
+      width: 90%;
       font-family: var(--font-mono);
       text-align: center;
       text-transform: uppercase;

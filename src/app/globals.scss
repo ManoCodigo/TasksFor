@@ -71,7 +71,7 @@ a {
   text-decoration: none;
 }
 
-input[type="text"], button {
+input:not([type="checkbox"]), button {
   all: unset;
   font-family: monospace;
 }
