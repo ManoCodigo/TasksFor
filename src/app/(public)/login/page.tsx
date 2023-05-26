@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from "../../../../services/firebase";
+// import { auth } from "../../../../services/firebase";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',
@@ -17,18 +17,24 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
+  // const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
 
-  function logar() {
-    signInWithEmailAndPassword(email, password);
-    router.push('/');
+  async function logar() {
+    try {
+      // await signInWithEmailAndPassword(email, password);
+      // // router.push('/');
+      // console.log('user >> ', user);
+      // console.log('error >> ', error);
+    } catch(err) {
+      console.log('err >> ', err);
+    }
   }
 
-  if (user)
-    console.log(user)
+  // if (user)
+  //   console.log(user)
   
-  if (loading) 
-    return <p>C A R R E G A N D O . . .</p>
+  // if (loading) 
+  //   return <p>C A R R E G A N D O . . .</p>
 
   return (
     <>

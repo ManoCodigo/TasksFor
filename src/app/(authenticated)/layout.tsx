@@ -11,6 +11,12 @@ import ActiveLinkButton from '../../../components/activeLinkButton/activeLinkBut
 
 export default function RootLayout({ children }: { children: React.ReactNode } ) {
 
+  
+  // useEffect(() => {
+  //   const name = auth.currentUser
+  //   console.log('currentUser >> ', name)
+  // }, []);
+
   return (
     <html lang="en">
       <body>

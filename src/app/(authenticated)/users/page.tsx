@@ -9,8 +9,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
 import { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import { firestore } from '../../../../services/firebase';
+// import { collection, getDocs } from 'firebase/firestore';
+// import { firestore } from '../../../../services/firebase';
 
 // export const metadata = {
 //   title: 'Equipe | TasksFor',
@@ -20,15 +20,15 @@ import { firestore } from '../../../../services/firebase';
 export default async function UsersPage() {
   const [lstUser, setLstUser] = useState([]);
 
-  const userRef = collection(firestore, 'users');
+  // const userRef = collection(firestore, 'users');
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(userRef);
-      console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-    }
-    getUsers();
-  }, []);
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     const data = await getDocs(userRef);
+  //     console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+  //   }
+  //   getUsers();
+  // }, []);
 
   return (
     <>

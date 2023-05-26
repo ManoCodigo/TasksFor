@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth, firestore } from "../../../../services/firebase";
-import { collection, setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../../../services/firebase";
+import firebase from "firebase";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',
@@ -16,35 +16,42 @@ import { collection, setDoc, doc } from "firebase/firestore";
 export default function RegisterPage() {
   const router = useRouter();
 
-  const userRef = collection(firestore, 'users');
+  // const userRef = collection(firestore, 'users');
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
+  // const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
 
   function register() {
-    createUserWithEmailAndPassword(email, password).then(data => {
-      const uid = data?.user.uid;
-      const userData = {
-        email: email,
-        name: name,
-        role: 'adm'
-      };
-      setDoc(doc(userRef, uid), userData);
-    });
-    router.push('/');
+    try {
+      auth.createUserWithEmailAndPassword(email, password).then(data => {
+        const uid = data?.user?.uid;
+        const userData = {
+          email: email,
+          name: name,
+          role: 'adm',
+        };
+        db.collection("users").doc(uid).set(userData);
+      })
+      console.log(auth.currentUser)
+    } catch(err) {
+      console.log(err)
+    }
+    // console.log('user >> ', user)
+    // console.log('name user >> ',auth.currentUser?.displayName)
+      // router.push('/');
   }
   
-  if (loading) 
-    return <p>C A R R E G A N D O . . .</p>
+  // if (loading) 
+  //   return <p>C A R R E G A N D O . . .</p>
 
   return (
     <>
       <section>
         <form onSubmit={(e) => { register(), e.preventDefault(); }}>
           <div className="form-container">
-            <h1>REGISTER</h1>
+            <h1>REGISTER 1</h1>
             <div className="form-login">
 
               <div className="group-input">
