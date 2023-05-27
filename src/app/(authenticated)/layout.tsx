@@ -3,6 +3,10 @@
 import '../globals.scss'
 import './home.scss'
 import ActiveLinkButton from '../../../components/activeLinkButton/activeLinkButton';
+import { useEffect, useState } from 'react';
+import { auth, firestore } from '../../../services/firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { IUser } from '../interfaces/user.interface';
 
 // export const metadata = {
 //   title: 'Home | TasksFor',
@@ -10,6 +14,26 @@ import ActiveLinkButton from '../../../components/activeLinkButton/activeLinkBut
 // }
 
 export default function RootLayout({ children }: { children: React.ReactNode } ) {
+
+  const userRef = collection(firestore, 'users');
+  const [userName, setUserName] = useState('N/A');
+  
+  useEffect(() => {
+    const uidUser = auth.currentUser?.uid
+    getUser(uidUser);
+  }, []);
+  
+  async function getUser(uid: any) {
+    const data = await getDocs(userRef);
+    const e = data.docs.filter((doc) => doc.id === uid ).map(res => res.data())[0]
+    auth.currentUser?.reload();
+    console.log(e)
+    setUserName(e?.name ?? 'N/A');
+  }
+
+  async function logout() {
+    await auth.signOut();
+  }
 
   return (
     <html lang="en">
@@ -21,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode } )
               <ActiveLinkButton title={'Inicio'} href={'/'} />
               <ActiveLinkButton title={'Quadro'} href={'/tasks'} />
               <ActiveLinkButton title={'Equipe'} href={'/users'} />
-              <ActiveLinkButton title={'Logout'} href={'/login'} />
+              <ActiveLinkButton title={userName} href={'/login'} onClick={logout} />
             </ul>
           </nav>
         </header>

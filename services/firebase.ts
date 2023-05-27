@@ -1,5 +1,5 @@
 
-import { initializeApp } from 'firebase/app';
+import { getApp, getApps, initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import 'firebase/database';
 import { getAuth } from 'firebase/auth';
@@ -14,7 +14,12 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const auth = getAuth();
 const firestore = getFirestore(app);
+
+// console.log('APP >> ', getApp())
+// console.log('APP LENGHT >> ', getApps().length)
+// console.log('APPS >> ', getApps())
+console.log('AUTH >> ', auth.currentUser)
 
 export { auth, firestore }

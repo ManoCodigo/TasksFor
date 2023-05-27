@@ -19,21 +19,27 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
 
-  function logar() {
-    signInWithEmailAndPassword(email, password);
+  async function logar() {
+    try {
+      await signInWithEmailAndPassword(email, password);
+      console.log('user >> ', user);
+      console.log('error >> ', error);
+    } catch(err) {
+      console.log('err >> ', err);
+    }
     router.push('/');
   }
 
-  if (user)
-    console.log(user)
+  // if (user)
+  //   console.log(user)
   
-  if (loading) 
-    return <p>C A R R E G A N D O . . .</p>
+  // if (loading) 
+  //   return <p>C A R R E G A N D O . . .</p>
 
   return (
     <>
       <section>
-        <form onSubmit={(e) => { logar(), e.preventDefault(); }}>
+        <form onSubmit={(e) => { logar(), e.preventDefault() }}>
           <div className="form-container">
             <h1>LOGIN</h1>
             <div className="form-login">
@@ -48,7 +54,7 @@ export default function LoginPage() {
               </div>
               
             </div>
-            <p onClick={()=> router.push('/register')}>Cadastrar uma nova conta</p>
+            <p onClick={(e)=> {router.push('/register'), e.preventDefault()}}>Cadastrar uma nova conta</p>
           </div>
 
           <button type="submit">Logar</button>
