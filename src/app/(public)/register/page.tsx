@@ -48,13 +48,15 @@ export default function RegisterPage() {
   
   // if (loading) 
   //   return <p>C A R R E G A N D O . . .</p>
+  // if (loading) 
+  //   return <p>C A R R E G A N D O . . .</p>
 
   return (
     <>
       <section>
         <form onSubmit={(e) => { register(), e.preventDefault() }}>
           <div className="form-container">
-            <h1>REGISTER</h1>
+            <h1>REGISTER 1</h1>
             <div className="form-login">
 
               <div className="group-input">

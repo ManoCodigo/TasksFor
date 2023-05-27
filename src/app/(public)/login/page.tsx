@@ -32,7 +32,11 @@ export default function LoginPage() {
 
   // if (user)
   //   console.log(user)
+  // if (user)
+  //   console.log(user)
   
+  // if (loading) 
+  //   return <p>C A R R E G A N D O . . .</p>
   // if (loading) 
   //   return <p>C A R R E G A N D O . . .</p>
 
