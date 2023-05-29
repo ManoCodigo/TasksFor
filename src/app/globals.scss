@@ -17,6 +17,7 @@
   --button-hover-color: rgba(0, 0, 0, 0.05);
 
   --crud-delete: #c70000;
+  --msg-form-error: #fa0000;
 
   --bg-color-white-opacity-40: #ffffff40;
   --bg-color-white-opacity-60: #ffffff60;
@@ -81,6 +82,13 @@ button {
   cursor: pointer;
   text-transform: uppercase;
   transition: .3s;
+}
+
+.form-error {
+  text-align: center;
+  font-family: var(--font-mono);
+  color: var(--msg-form-error);
+  margin-top: 8px;
 }
 
 ::-webkit-scrollbar-thumb {

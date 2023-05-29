@@ -9,8 +9,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
 import { useEffect, useState } from 'react';
-// import { collection, getDocs } from 'firebase/firestore';
-// import { firestore } from '../../../../services/firebase';
+import { firestore } from '../../../../services/firebase';
+import { IUser } from '@/app/interfaces/user.interface';
 
 // export const metadata = {
 //   title: 'Equipe | TasksFor',
@@ -18,18 +18,18 @@ import { useEffect, useState } from 'react';
 // }
 
 export default async function UsersPage() {
-  const [lstUser, setLstUser] = useState([]);
 
-  // const userRef = collection(firestore, 'users');
+  const [lstUser, setLstUser] = useState<any[]>();
 
-  // useEffect(() => {
-  //   const getUsers = async () => {
-  //     const data = await getDocs(userRef);
-  //     console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-  //   }
-  //   getUsers();
-  // }, []);
+  useEffect(() => {
+    const uid = localStorage.getItem('uid') || '';
+    getUsers(uid);
+  }, []);
 
+  const getUsers = async (uid: any) => {
+    //...
+  }
+  
   return (
     <>
       <section className="container-title">
@@ -38,56 +38,35 @@ export default async function UsersPage() {
           <FontAwesomeIcon icon="plus"/>
         </button>
       </section>
+
       <section className="container-list-user">
-
-        <div className="box-card">
-          <div className="card-info">
-            <p>Lucas Brandão</p>
-            <p><strong>• Email:</strong> lucas@mail.com</p>
-            <p><strong>• Setor:</strong> Desenvolvimento</p>
-            <p><strong>• Permissão:</strong> Administrador</p>
-            <p>
-              <strong>• Tarefas:</strong> 
-              <span>
-                <FontAwesomeIcon icon={faSquare}/>
-                <span>10</span>
-              </span>
-              <span>
-                <FontAwesomeIcon icon={faCheckSquare}/>
-                <span>10</span>
-              </span>
-            </p>
-          </div>
-          <div className="card-actions">
-            <button>Excluir Usuário</button>
-            <button>Editar Usuário</button>
-          </div>
-        </div>
-
-        <div className="box-card">
-          <div className="card-info">
-            <p>Davi Tavares</p>
-            <p><strong>• Email:</strong>davi@mail.com</p>
-            <p><strong>• Setor:</strong> Desenvolvimento</p>
-            <p><strong>• Permissão:</strong> Administrador</p>
-            <p>
-              <strong>• Tarefas:</strong> 
-              <span>
-                <FontAwesomeIcon icon={faSquare}/>
-                <span>10</span>
-              </span>
-              <span>
-                <FontAwesomeIcon icon={faCheckSquare}/>
-                <span>10</span>
-              </span>
-            </p>
-          </div>
-          <div className="card-actions">
-            <button>Excluir Usuário</button>
-            <button>Editar Usuário</button>
-          </div>
-        </div>
-
+        { lstUser?.map((user: IUser) => {
+          return (
+            <div key={user.id} className="box-card">
+              <div className="card-info">
+                <p>{user.name}</p>
+                <p><strong>• Email:</strong>{user.email}</p>
+                <p><strong>• Setor:</strong> Desenvolvimento</p>
+                <p><strong>• Permissão:</strong>{user.role}</p>
+                <p>
+                  <strong>• Tarefas:</strong> 
+                  <span>
+                    <FontAwesomeIcon icon={faSquare}/>
+                    <span>10</span>
+                  </span>
+                  <span>
+                    <FontAwesomeIcon icon={faCheckSquare}/>
+                    <span>10</span>
+                  </span>
+                </p>
+              </div>
+              <div className="card-actions">
+                <button>Excluir Usuário</button>
+                <button>Editar Usuário</button>
+              </div>
+            </div>
+          )
+        })}
       </section>
     </>
   )

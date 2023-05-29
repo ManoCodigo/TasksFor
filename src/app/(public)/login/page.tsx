@@ -4,8 +4,8 @@ import "../login-register.scss";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from "../../../../services/firebase";
+import { APP_ROUTES } from "@/constants/app-routes";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',
@@ -15,30 +15,28 @@ import { auth } from "../../../../services/firebase";
 export default function LoginPage() {
   const router = useRouter();
 
+  const [loading, setloading] = useState(false);
+  const [userNotFound, setUserNotFound] = useState('');
+  const [emailMsgError, setEmailMsgError] = useState('');
+  const [emailMsgPassword, setEmailMsgPassword] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
 
   async function logar() {
-    try {
-      await signInWithEmailAndPassword(email, password);
-      console.log('user >> ', user);
-      console.log('error >> ', error);
-    } catch(err) {
-      console.log('err >> ', err);
-    }
-    router.push('/');
-  }
+    setloading(true);
+    await auth.signInWithEmailAndPassword(email, password).then(data => {
+      const uid = data.user?.uid || '';
+      
+      localStorage.setItem('uid', uid);
+      router.push(APP_ROUTES.private.home);
+    }).catch(err => {
+      console.log('error LOGIN >> ', err);
 
-  // if (user)
-  //   console.log(user)
-  // if (user)
-  //   console.log(user)
-  
-  // if (loading) 
-  //   return <p>C A R R E G A N D O . . .</p>
-  // if (loading) 
-  //   return <p>C A R R E G A N D O . . .</p>
+      err.code === 'auth/invalid-email' ? setEmailMsgError(err.message) : setEmailMsgError('');
+      err.code === 'auth/wrong-password' ? setEmailMsgPassword(err.message) : setEmailMsgPassword('');
+      err.code === 'auth/user-not-found' ? setUserNotFound(err.message) : setUserNotFound('');
+    }).finally(() => setloading(false));
+  }
 
   return (
     <>
@@ -47,23 +45,29 @@ export default function LoginPage() {
           <div className="form-container">
             <h1>LOGIN</h1>
             <div className="form-login">
-
               <div className="group-input">
                 <label>Email:</label>
                 <input type="text" onChange={(email) => setEmail(email.target.value)}/>
+                { emailMsgError && 
+                  <small className="form-error">{ emailMsgError }</small>
+                }
               </div>
               <div className="group-input">
                 <label>Senha:</label>
                 <input type="password" onChange={(password) => setPassword(password.target.value)}/>
+                { emailMsgPassword &&
+                  <small className="form-error">{ emailMsgPassword }</small>
+                }
               </div>
-              
+              { userNotFound &&
+                <small className="form-error">{ userNotFound }</small>
+              }
             </div>
-            <p onClick={(e)=> {router.push('/register'), e.preventDefault()}}>Cadastrar uma nova conta</p>
+            <p onClick={(e)=> {router.push(APP_ROUTES.public.register), e.preventDefault()}}>Cadastrar uma nova conta</p>
           </div>
-
-          <button type="submit">Logar</button>
+          <button type="submit" disabled={ loading }>Logar</button>
         </form>
       </section>
     </>
-  )
+  );
 }

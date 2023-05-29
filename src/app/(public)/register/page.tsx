@@ -1,14 +1,12 @@
 "use client";
 
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import "../login-register.scss";
+import "../../globals.scss";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, firestore } from "../../../../services/firebase";
-import { getApp, getApps } from "firebase/app";
-// import { collection, setDoc, doc } from "firebase/firestore";
+import { APP_ROUTES } from "@/constants/app-routes";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',
@@ -18,67 +16,77 @@ import { getApp, getApps } from "firebase/app";
 export default function RegisterPage() {
   const router = useRouter();
 
-  const userRef = collection(firestore, 'users');
-
+  const [loading, setloading] = useState(false);
+  const [nameMsgError, setNameMsgError] = useState('');
+  const [emailMsgError, setEmailMsgError] = useState('');
+  const [emailMsgPassword, setEmailMsgPassword] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
 
-  function register() {
-    try {
-      createUserWithEmailAndPassword(email, password).then(data => {
-        const uid = data?.user.uid;
-        const userData = {
+  async function register() {
+    setloading(true);
+
+    if(name.trim()) {
+      setNameMsgError('');
+      auth.createUserWithEmailAndPassword(email, password)
+      .then(async (userCredential) => {
+        const uid = userCredential.user?.uid || '';
+        
+        await firestore.collection("users").doc(uid).set({
           email: email,
           name: name,
           role: 'adm',
-        };
-        setDoc(doc(userRef, uid), userData);
-        auth.currentUser?.reload();
-      });
-      router.push('/');
-    } catch(err) {
-      console.log(err)
-    }
-
-    console.log('user >> ', user)
-    console.log('currentUser >> ', auth.currentUser)
-  }
+        });
+        localStorage.setItem('uid', uid);
   
-  // if (loading) 
-  //   return <p>C A R R E G A N D O . . .</p>
-  // if (loading) 
-  //   return <p>C A R R E G A N D O . . .</p>
+        router.push(APP_ROUTES.private.home);
+      }).catch(err => {
+        console.log('error REGISTER >> ', err);
+  
+        err.code === 'auth/invalid-email' ? setEmailMsgError(err.message) : setEmailMsgError('');
+        err.code === 'auth/weak-password' ? setEmailMsgPassword(err.message) : setEmailMsgPassword('');
+      }).finally(() => setloading(false));
+    } else {
+      setNameMsgError('Name cannot be empty');
+      setloading(false);
+    }
+  }
 
   return (
     <>
       <section>
-        <form onSubmit={(e) => { register(), e.preventDefault() }}>
+        <form onSubmit={(e) => {register(), e.preventDefault()} }>
           <div className="form-container">
-            <h1>REGISTER 1</h1>
+            <h1>REGISTER</h1>
             <div className="form-login">
-
               <div className="group-input">
                 <label>Name:</label>
                 <input type="text" onChange={(name) => setName(name.target.value)}/>
+                { nameMsgError && 
+                  <small className="form-error">{ nameMsgError }</small>
+                }
               </div>
               <div className="group-input">
                 <label>Email:</label>
                 <input type="email" onChange={(email) => setEmail(email.target.value)}/>
+                { emailMsgError && 
+                  <small className="form-error">{ emailMsgError }</small>
+                }
               </div>
               <div className="group-input">
                 <label>Senha:</label>
                 <input type="password" onChange={(password) => setPassword(password.target.value)}/>
+                { emailMsgPassword &&
+                  <small className="form-error">{ emailMsgPassword }</small>
+                }
               </div>
-              
             </div>
-            <p onClick={(e)=> { router.push('/login'), e.preventDefault() }}>Logar com uma conta</p> 
+            <p onClick={(e)=> { router.push(APP_ROUTES.public.login), e.preventDefault() }}>Logar com uma conta</p> 
           </div>
-
-          <button type="submit">Cadastrar</button>
+          <button type="submit" disabled={ loading }>Cadastrar</button>
         </form>
       </section>
     </>
-  )
+  );
 }

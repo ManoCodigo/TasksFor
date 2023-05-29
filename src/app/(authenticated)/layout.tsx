@@ -5,8 +5,10 @@ import './home.scss'
 import ActiveLinkButton from '../../../components/activeLinkButton/activeLinkButton';
 import { useEffect, useState } from 'react';
 import { auth, firestore } from '../../../services/firebase';
-import { collection, getDocs } from 'firebase/firestore';
-import { IUser } from '../interfaces/user.interface';
+import { usePathname, useRouter } from 'next/navigation';
+import { checkIsPublicRoute } from '@/constants/check-public-route';
+import PrivateRoute from '@/constants/private-route';
+import { APP_ROUTES } from '@/constants/app-routes';
 
 // export const metadata = {
 //   title: 'Home | TasksFor',
@@ -14,46 +16,69 @@ import { IUser } from '../interfaces/user.interface';
 // }
 
 export default function RootLayout({ children }: { children: React.ReactNode } ) {
-
-  const userRef = collection(firestore, 'users');
+  const router = useRouter();
+  const pathname = usePathname();
   const [userName, setUserName] = useState('N/A');
   
+  const isPublicPage = checkIsPublicRoute(pathname);
+
+  auth.onAuthStateChanged(userLogged => {
+    if(!userLogged)
+      localStorage.removeItem('uid')
+
+    console.log('onAuthStateChanged >> ', userLogged)
+  })
+
   useEffect(() => {
-    const uidUser = auth.currentUser?.uid
+    const uidUser = localStorage.getItem('uid')
     getUser(uidUser);
   }, []);
   
   async function getUser(uid: any) {
-    const data = await getDocs(userRef);
-    const e = data.docs.filter((doc) => doc.id === uid ).map(res => res.data())[0]
-    auth.currentUser?.reload();
-    console.log(e)
-    setUserName(e?.name ?? 'N/A');
+    const docRef = firestore.collection('users').doc(uid);
+    
+    docRef.get().then((doc) => {
+      const user = doc.data();
+      setUserName(user?.name);
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
   }
 
   async function logout() {
-    await auth.signOut();
+    auth.signOut().then(() => {
+      localStorage.removeItem('uid');
+      router.push(APP_ROUTES.public.login);
+    }).catch((error) => {
+      console.log('error LOGOUT', error)
+    });
   }
 
   return (
-    <html lang="en">
-      <body>
-        <header>
-          <h1>TasksFor</h1>
-          <nav>
-            <ul>
-              <ActiveLinkButton title={'Inicio'} href={'/'} />
-              <ActiveLinkButton title={'Quadro'} href={'/tasks'} />
-              <ActiveLinkButton title={'Equipe'} href={'/users'} />
-              <ActiveLinkButton title={userName} href={'/login'} onClick={logout} />
-            </ul>
-          </nav>
-        </header>
+    <>
+      <html lang="en">
+        <body>
+          { !isPublicPage && 
+            <PrivateRoute>
+              <header>
+                <h1>TasksFor</h1>
+                <nav>
+                  <ul>
+                    <ActiveLinkButton title={'Inicio'} href={'/'} />
+                    <ActiveLinkButton title={'Quadro'} href={'/tasks'} />
+                    <ActiveLinkButton title={'Equipe'} href={'/users'} />
+                    <button className="link" onClick={logout} >{ userName }</button>
+                  </ul>
+                </nav>
+              </header>
 
-        <main>
-          { children }
-        </main>
-      </body>
-    </html>
+              <main>
+                { children }
+              </main>
+            </PrivateRoute>
+          }
+        </body>
+      </html>
+    </>
   )
 }
