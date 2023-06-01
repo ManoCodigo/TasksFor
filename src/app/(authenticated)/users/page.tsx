@@ -11,6 +11,7 @@ library.add(fas);
 import { useEffect, useState } from 'react';
 import { firestore } from '../../../../services/firebase';
 import { IUser } from '@/app/interfaces/user.interface';
+import { collection, getDocs, onSnapshot } from 'firebase/firestore';
 
 // export const metadata = {
 //   title: 'Equipe | TasksFor',
@@ -19,16 +20,27 @@ import { IUser } from '@/app/interfaces/user.interface';
 
 export default async function UsersPage() {
 
-  const [lstUser, setLstUser] = useState<any[]>();
+  const [lstUser, setLstUser] = useState<IUser[]>([]);
+  const docRef = collection(firestore, 'users');
 
   useEffect(() => {
-    const uid = localStorage.getItem('uid') || '';
-    getUsers(uid);
-  }, []);
+    const getUsers = async () => {
+      const allUser = await getDocs(docRef)
+      .then((data) => {
+          return data.docs.map((item) => {
+            return { ...item.data(), id: item.id }
+          })   
+      }) as IUser[];
 
-  const getUsers = async (uid: any) => {
-    //...
-  }
+      setLstUser(allUser);
+  
+      console.log('allUser >> ', allUser)
+      console.log('lstUser >> ', lstUser)
+    }
+    getUsers();
+  }, []);
+  
+  console.log('lstUser >> ', lstUser);
   
   return (
     <>
@@ -40,33 +52,35 @@ export default async function UsersPage() {
       </section>
 
       <section className="container-list-user">
-        { lstUser?.map((user: IUser) => {
-          return (
-            <div key={user.id} className="box-card">
-              <div className="card-info">
-                <p>{user.name}</p>
-                <p><strong>• Email:</strong>{user.email}</p>
-                <p><strong>• Setor:</strong> Desenvolvimento</p>
-                <p><strong>• Permissão:</strong>{user.role}</p>
-                <p>
-                  <strong>• Tarefas:</strong> 
-                  <span>
-                    <FontAwesomeIcon icon={faSquare}/>
-                    <span>10</span>
-                  </span>
-                  <span>
-                    <FontAwesomeIcon icon={faCheckSquare}/>
-                    <span>10</span>
-                  </span>
-                </p>
+        {lstUser?.length > 0 ? (
+            lstUser.map((user: IUser) => (
+              <div key={user.id} className="box-card">
+                <div className="card-info">
+                  <p>{user.name}</p>
+                  <p><strong>• Email:</strong>{user.email}</p>
+                  <p><strong>• Setor:</strong> Desenvolvimento</p>
+                  <p><strong>• Permissão:</strong>{user.role}</p>
+                  <p>
+                    <strong>• Tarefas:</strong> 
+                    <span>
+                      <FontAwesomeIcon icon={faSquare}/>
+                      <span>10</span>
+                    </span>
+                    <span>
+                      <FontAwesomeIcon icon={faCheckSquare}/>
+                      <span>10</span>
+                    </span>
+                  </p>
+                </div>
+                <div className="card-actions">
+                  <button>Excluir Usuário</button>
+                  <button>Editar Usuário</button>
+                </div>
               </div>
-              <div className="card-actions">
-                <button>Excluir Usuário</button>
-                <button>Editar Usuário</button>
-              </div>
-            </div>
-          )
-        })}
+            ))
+          ) : (
+            <p>Nenhum usuário encontrado.</p>
+          )}
       </section>
     </>
   )

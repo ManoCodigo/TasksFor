@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { auth } from "../../../../services/firebase";
 import { APP_ROUTES } from "@/constants/app-routes";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',
@@ -24,7 +25,7 @@ export default function LoginPage() {
 
   async function logar() {
     setloading(true);
-    await auth.signInWithEmailAndPassword(email, password).then(data => {
+    await signInWithEmailAndPassword(auth, email, password).then(data => {
       const uid = data.user?.uid || '';
       
       localStorage.setItem('uid', uid);

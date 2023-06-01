@@ -9,6 +9,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { checkIsPublicRoute } from '@/constants/check-public-route';
 import PrivateRoute from '@/constants/private-route';
 import { APP_ROUTES } from '@/constants/app-routes';
+import { collection, doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { signOut } from 'firebase/auth';
+import { IUser } from '../interfaces/user.interface';
 
 // export const metadata = {
 //   title: 'Home | TasksFor',
@@ -19,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode } )
   const router = useRouter();
   const pathname = usePathname();
   const [userName, setUserName] = useState('N/A');
-  
+
   const isPublicPage = checkIsPublicRoute(pathname);
 
   auth.onAuthStateChanged(userLogged => {
@@ -30,23 +33,19 @@ export default function RootLayout({ children }: { children: React.ReactNode } )
   })
 
   useEffect(() => {
-    const uidUser = localStorage.getItem('uid')
+    const uidUser = localStorage.getItem('uid') || '';
     getUser(uidUser);
-  }, []);
-  
+  }, [userName]);
+
   async function getUser(uid: any) {
-    const docRef = firestore.collection('users').doc(uid);
-    
-    docRef.get().then((doc) => {
-      const user = doc.data();
-      setUserName(user?.name);
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    });
+    const userRef = doc(firestore, 'users', uid);
+    const userSnap = await getDoc(userRef);
+    const userData = userSnap.data();
+    setUserName(userData?.name);
   }
 
   async function logout() {
-    auth.signOut().then(() => {
+    signOut(auth).then(() => {
       localStorage.removeItem('uid');
       router.push(APP_ROUTES.public.login);
     }).catch((error) => {

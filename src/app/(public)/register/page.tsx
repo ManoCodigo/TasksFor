@@ -7,6 +7,8 @@ import { useState } from "react";
 
 import { auth, firestore } from "../../../../services/firebase";
 import { APP_ROUTES } from "@/constants/app-routes";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc, collection } from "firebase/firestore";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',
@@ -24,16 +26,18 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const userRef = collection(firestore, 'users');
+
   async function register() {
     setloading(true);
 
     if(name.trim()) {
       setNameMsgError('');
-      auth.createUserWithEmailAndPassword(email, password)
+      createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         const uid = userCredential.user?.uid || '';
         
-        await firestore.collection("users").doc(uid).set({
+        await setDoc(doc(userRef, uid), {
           email: email,
           name: name,
           role: 'adm',
