@@ -20,6 +20,9 @@ ul {
 
   .link {
     flex: 1 1 rem(150);
+    display: flex;
+    justify-content: center;
+    gap: 15px;
     font-family: var(--font-mono);
     text-align: center;
     text-transform: uppercase;
