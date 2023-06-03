@@ -13,7 +13,7 @@
   --black-default: #000;
   --white-default: #fff;
   
-  --button-color-default: linear-gradient(25deg, #ee92ff39, #61afff39);
+  --button-color-default-opacity: linear-gradient(25deg, #ee92ff39, #61afff39);
   --button-hover-color: rgba(0, 0, 0, 0.05);
 
   --crud-delete: #c70000;
@@ -44,6 +44,9 @@ body {
 header, main, footer {
   max-width: rem(920);
   margin: auto;
+}
+
+main, footer {
   padding: rem(20);
 }
 

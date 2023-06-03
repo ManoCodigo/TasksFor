@@ -10,6 +10,9 @@ library.add(fas);
 
 import { useEffect, useState } from 'react';
 import { IUser } from '@/app/interfaces/user.interface';
+import ModalForm from '../../../../components/modalForm/modalForm';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../../services/firebase';
 
 // export const metadata = {
 //   title: 'Equipe | TasksFor',
@@ -19,6 +22,8 @@ import { IUser } from '@/app/interfaces/user.interface';
 export default function UsersPage() {
 
   const [lstUser, setLstUser] = useState<IUser[]>([]);
+  const [user, setUser] = useState<IUser>();
+  const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
     getAllUsers();
@@ -31,12 +36,21 @@ export default function UsersPage() {
         setLstUser(data);
       })
   }
+
+  function showModal() {
+    setIsModalActive(!isModalActive);
+  }
+
+  async function submit(e: any) {
+    e.preventDefault();
+    console.log('user >> ', user);
+  }
   
   return (
     <>
       <section className="container-title">
         <h2>Sua Equipe</h2>
-        <button>
+        <button onClick={showModal}>
           <FontAwesomeIcon icon="plus"/>
         </button>
       </section>
@@ -72,6 +86,17 @@ export default function UsersPage() {
             <p>Nenhum usuário encontrado.</p>
           )}
       </section>
+
+      <ModalForm
+        className="modal"
+        title="MODAL"
+        hidden={isModalActive}
+        showModal={showModal}
+        submit={submit}
+        user={user}
+        setUser={setUser}
+      >
+      </ModalForm>
     </>
   )
 }

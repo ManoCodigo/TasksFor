@@ -130,7 +130,7 @@
         justify-content: center;
         align-items: center;
         gap: rem(5);
-        background: var( --button-color-default);
+        background: var( --button-color-default-opacity);
         border-bottom-right-radius: var(--border-radius);
 
         &:hover {

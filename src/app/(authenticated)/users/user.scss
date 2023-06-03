@@ -10,7 +10,7 @@
     width: rem(40);
     height: rem(40);
     font-size: rem(20);
-    background: var(--button-color-default);
+    background: var(--button-color-default-opacity);
     border-radius: var(--border-radius);
     display: flex;
     justify-content: center;
@@ -69,7 +69,7 @@
     .card-actions {
       display: flex;
       justify-content: space-around;
-      background: var(--button-color-default);
+      background: var(--button-color-default-opacity);
       border-bottom-left-radius: rem(12);
       border-bottom-right-radius: rem(12);
 

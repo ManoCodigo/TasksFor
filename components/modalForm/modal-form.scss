@@ -1,0 +1,94 @@
+@import '../../src/app/utils/mixins-utils.scss';
+
+.outside-modal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  transform: translate(-50%, -50%);
+  background: #00000050;
+
+  section {
+    width: 100%;
+    max-width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2000;
+    transform: translate(-50%, -50%);
+
+    .close-modal {
+      font-size: 30px;
+      color: gray;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+      transition: .3s;
+
+      &:hover {
+        color: var(--black-default);
+      }
+    }
+
+    form {
+      width: 100%;
+      max-width: rem(400);
+      border-radius: var(--border-radius);
+      background-color: var(--white-default);
+    
+      .form-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: rem(20);
+        padding: rem(30) rem(10) rem(15);
+    
+        h2 {
+          text-align: center;
+        }
+    
+        p {
+          text-align: center;
+          cursor: pointer;
+        }
+    
+        .form-login {
+          display: flex;
+          flex-direction: column;
+          gap: rem(15);
+        }
+    
+        .group-input {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+    
+          @include input-default;
+          input, label {
+            background-color: #e9edf96e;
+          }
+        }
+      }
+    
+      button {
+        width: 90%;
+        font-family: var(--font-mono);
+        text-align: center;
+        text-transform: uppercase;
+        color: var(--black-default);
+        padding: rem(20);
+        cursor: pointer;
+        background: var(--button-color-default-opacity);
+        border-bottom-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+        
+        &:hover {
+          background-color: var(--button-hover-color);
+        }
+      }
+    }
+  }
+}
