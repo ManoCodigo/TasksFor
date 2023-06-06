@@ -9,6 +9,7 @@ import { auth, firestore } from "../../../../services/firebase";
 import { APP_ROUTES } from "@/constants/app-routes";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc, collection } from "firebase/firestore";
+import { listSectors } from "@/app/utils/lists/list-sectors";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',
@@ -25,6 +26,7 @@ export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [sector, setSector] = useState('');
 
   const userRef = collection(firestore, 'users');
 
@@ -35,12 +37,14 @@ export default function RegisterPage() {
       setNameMsgError('');
       createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
-        const uid = userCredential.user?.uid || '';
+        const uid = userCredential.user?.uid;
         
         await setDoc(doc(userRef, uid), {
+          idMaster: uid,
           email: email,
           name: name,
-          role: 'adm',
+          sector: sector,
+          role: 'Administrador',
         });
         localStorage.setItem('uid', uid);
   
@@ -62,10 +66,10 @@ export default function RegisterPage() {
       <section>
         <form onSubmit={(e) => {register(), e.preventDefault()} }>
           <div className="form-container">
-            <h1>REGISTER</h1>
+            <h1>REGISTRAR</h1>
             <div className="form-login">
               <div className="group-input">
-                <label>Name:</label>
+                <label>Nome:</label>
                 <input type="text" onChange={(name) => setName(name.target.value)}/>
                 { nameMsgError && 
                   <small className="form-error">{ nameMsgError }</small>
@@ -84,6 +88,15 @@ export default function RegisterPage() {
                 { emailMsgPassword &&
                   <small className="form-error">{ emailMsgPassword }</small>
                 }
+              </div>
+              <div className="group-input">
+                <label>Setor:</label>
+                <select onChange={(sector) => setSector(sector.target.value)}>
+                  { listSectors?.map((res, index) => (
+                    <option key={index} value={res.label}>{res.label}</option>
+                    )) 
+                  }
+                </select>
               </div>
             </div>
             <p onClick={(e)=> { router.push(APP_ROUTES.public.login), e.preventDefault() }}>Logar com uma conta</p> 

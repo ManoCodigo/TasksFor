@@ -4,7 +4,7 @@ import '../globals.scss'
 import './home.scss'
 import ActiveLinkButton from '../../../components/activeLinkButton/activeLinkButton';
 import { useEffect, useState } from 'react';
-import { auth, firestore } from '../../../services/firebase';
+import { auth } from '../../../services/firebase';
 import { usePathname, useRouter } from 'next/navigation';
 import { checkIsPublicRoute } from '@/constants/check-public-route';
 import PrivateRoute from '@/constants/private-route';
@@ -37,12 +37,12 @@ export default function RootLayout({ children }: { children: React.ReactNode } )
   })
 
   useEffect(() => {
-    const uidUser = localStorage.getItem('uid') || '';
-    getUser(uidUser);
+    const uidUser = localStorage.getItem('uid');
+    getUser(uidUser!);
   }, []);
 
   async function getUser(id: string) {
-    await fetch(`api/user_api?id=${id}`)
+    await fetch(`api/user/user-controller?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
         setCurrentUser(data);
@@ -52,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode } )
   async function logout() {
     signOut(auth).then(() => {
       localStorage.removeItem('uid');
+      localStorage.removeItem('token');
       router.push(APP_ROUTES.public.login);
     }).catch((error) => {
       console.log('error LOGOUT', error)

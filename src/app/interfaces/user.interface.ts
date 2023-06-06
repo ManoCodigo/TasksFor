@@ -1,7 +1,10 @@
 
 export interface IUser {
-  id: string;
-  email: string;
+  id?: string;
+  idMaster?: string;
   name: string;
+  email: string;
+  password?: string;
+  sector: string;
   role: string;
 }

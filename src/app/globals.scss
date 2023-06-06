@@ -17,6 +17,7 @@
   --button-hover-color: rgba(0, 0, 0, 0.05);
 
   --crud-delete: #c70000;
+  --crud-delete-hover: ##800200;
   --msg-form-error: #fa0000;
 
   --bg-color-white-opacity-40: #ffffff40;
@@ -78,6 +79,17 @@ a {
 input:not([type="checkbox"]), button {
   all: unset;
   font-family: monospace;
+}
+
+select {
+  font-family: monospace;
+  appearance: auto; 
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
 button {

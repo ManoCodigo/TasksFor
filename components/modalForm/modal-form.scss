@@ -67,8 +67,13 @@
           flex-direction: column;
     
           @include input-default;
-          input, label {
+          input, label, select {
             background-color: #e9edf96e;
+          }
+
+          .disabled {
+            color: gray;
+            background-color: rgb(237 237 237 / 50%);
           }
         }
       }

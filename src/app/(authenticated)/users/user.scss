@@ -44,8 +44,10 @@
 
         &:nth-child(1) {
           font-size: rem(25);
+          text-transform: capitalize;
           letter-spacing: rem(3);
           margin-bottom: rem(10);
+          justify-content: space-between;
         }
 
         span {
@@ -90,6 +92,10 @@
         &:hover {
           background-color: var(--button-hover-color);
         }
+      }
+
+      .btn-confirm {
+        color: var(--crud-delete);
       }
     }
   }
