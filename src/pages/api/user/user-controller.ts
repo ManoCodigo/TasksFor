@@ -3,11 +3,9 @@ import { firestoreAdm, authAdm  } from '../../../../firebase-admin';
 import {
     doc,
     getDoc,
-    getDocs,
     collection,
     updateDoc,
     deleteDoc,
-    addDoc,
     setDoc
 } from 'firebase/firestore'
 import { IUser } from '@/app/interfaces/user.interface';
@@ -21,25 +19,26 @@ export default async function handler(request: any, response: any) {
 
   switch (request.method) {
     case 'GET':
-      if (id === undefined) { // GET ALL...
-        firestoreAdm.collection('users')
-          .where('idMaster', '==', idMaster)
-          .get()
-          .then(snapshot => {
-          const users = snapshot.docs.map(doc => ({
-            ...doc.data(), id: doc.id
-          }));
-          response.status(200).json(users);
-        }).catch(e => {
-          response.status(e.code).json(e.message);
-        })
-      } else { // GET BY ID...
+      if (id) { // GET BY ID...
         const userRef = doc(firestore, 'users', id);
         const data = await getDoc(userRef);
         const user = { ...data.data(), id: data.id };
         user ? response.status(200).json(user) : response.status(404).json(user);
+      } else { // GET ALL...
+        firestoreAdm.collection('users')
+        .where('idMaster', '==', idMaster)
+        .get()
+        .then(snapshot => {
+        const users = snapshot.docs.map(doc => ({
+          ...doc.data(), id: doc.id
+        }));
+        response.status(200).json(users);
+      }).catch(e => {
+        response.status(e.code).json(e.message);
+      });
       }
       break;
+      //ATC! VER FUNÇÃO DE CRIPTOGRAFIA DA SENHA. 
     case 'POST':
       const newUser: IUser = body;
       authAdm.createUser({

@@ -30,9 +30,7 @@ export default function RegisterPage() {
 
   const userRef = collection(firestore, 'users');
 
-  async function register() {
-    setloading(true);
-
+  async function singUp() {
     if(name.trim()) {
       setNameMsgError('');
       createUserWithEmailAndPassword(auth, email, password)
@@ -64,7 +62,7 @@ export default function RegisterPage() {
   return (
     <>
       <section>
-        <form onSubmit={(e) => {register(), e.preventDefault()} }>
+        <form onSubmit={(e) => {singUp(), e.preventDefault()} }>
           <div className="form-container">
             <h1>REGISTRAR</h1>
             <div className="form-login">

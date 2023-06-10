@@ -15,6 +15,8 @@ import { IUser } from '../interfaces/user.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, fas } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { currentUserId } from './users/user-service';
+import { logOut } from '../../../services/auth';
 library.add(fas);
 
 // export const metadata = {
@@ -25,38 +27,37 @@ library.add(fas);
 export default function RootLayout({ children }: { children: React.ReactNode } ) {
   const router = useRouter();
   const pathname = usePathname();
+  const isPublicPage = checkIsPublicRoute(String(pathname));
+  const uidUser = currentUserId;
+
   const [currentUser, setCurrentUser] = useState<IUser>();
 
-  const isPublicPage = checkIsPublicRoute(String(pathname));
-
   auth.onAuthStateChanged(userLogged => {
-    if(!userLogged)
+    if(!userLogged) {
       localStorage.removeItem('uid');
+      localStorage.removeItem('idMaster');
+      router.push(APP_ROUTES.public.login);
+    }
 
     console.log('onAuthStateChanged >> ', userLogged)
   })
 
   useEffect(() => {
-    const uidUser = localStorage.getItem('uid');
     getUser(uidUser!);
   }, []);
 
   async function getUser(id: string) {
     await fetch(`api/user/user-controller?id=${id}`)
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: IUser) => {
+        localStorage.setItem('idMaster', data.idMaster!);
         setCurrentUser(data);
       })
   } 
 
-  async function logout() {
-    signOut(auth).then(() => {
-      localStorage.removeItem('uid');
-      localStorage.removeItem('token');
-      router.push(APP_ROUTES.public.login);
-    }).catch((error) => {
-      console.log('error LOGOUT', error)
-    });
+  async function signOut() {
+    logOut()
+      .then(() => router.push(APP_ROUTES.private.home));
   }
 
   return (
@@ -72,7 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode } )
                     <ActiveLinkButton title={'Inicio'} href={'/'} />
                     <ActiveLinkButton title={'Quadro'} href={'/tasks'} />
                     <ActiveLinkButton title={'Equipe'} href={'/users'} />
-                    <button className="link" onClick={logout} >
+                    <button className="link" onClick={signOut} >
                       { currentUser?.name }
                       <FontAwesomeIcon icon={faArrowRightFromBracket} />
                       </button>

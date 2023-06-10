@@ -11,6 +11,8 @@ library.add(fas);
 import { useEffect, useState } from 'react';
 import { IUser } from '@/app/interfaces/user.interface';
 import ModalForm from '../../../../components/modalForm/modalForm';
+import jwt from 'jsonwebtoken';
+import { currentIdMaster, currentUserId, isRole, role } from './user-service';
 
 // export const metadata = {
 //   title: 'Equipe | TasksFor',
@@ -19,7 +21,6 @@ import ModalForm from '../../../../components/modalForm/modalForm';
 
 export default function UsersPage() {
 
-  const currentUserId = localStorage.getItem('uid');
   const pathApi = '/api/user/user-controller'
 
   const [lstUser, setLstUser] = useState<IUser[]>([]);
@@ -34,9 +35,8 @@ export default function UsersPage() {
   }, []);
 
   async function getAllUsers() {
-    console.log('getAllUsers')
     clearStateUser();
-    await fetch(`${pathApi}?idMaster=${currentUserId}`)
+    await fetch(`${pathApi}?idMaster=${currentIdMaster}`)
       .then((res) => res.json())
       .then((data) => {
         setLstUser(data);
@@ -51,7 +51,7 @@ export default function UsersPage() {
     };
 
     await fetch(pathApi, requestOptions)
-    .then(data => console.log("Create - User") )
+    .then(() => console.log("Create - User") )
     .finally(() => {
       getAllUsers();
       showModal();
@@ -139,9 +139,11 @@ export default function UsersPage() {
     <>
       <section className="container-title">
         <h2>Sua Equipe</h2>
-        <button onClick={prepareCreate}>
-          <FontAwesomeIcon icon="plus"/>
-        </button>
+        { isRole('Administrador') &&
+          <button onClick={prepareCreate}>
+            <FontAwesomeIcon icon="plus"/>
+          </button>
+        }
       </section>
 
       <section className="container-list-user">
@@ -151,7 +153,7 @@ export default function UsersPage() {
                 <div className="card-info">
                   <p>
                     <span>{user.name}</span> 
-                    {user.id === currentUserId && <FontAwesomeIcon icon={faStarHalfAlt}/>}
+                    {user.id === user.idMaster  && <FontAwesomeIcon icon={faStarHalfAlt}/>}
                   </p>
                   <p><strong>• Email:</strong>{user.email}</p>
                   <p><strong>• Setor:</strong>{user.sector}</p>
@@ -177,8 +179,12 @@ export default function UsersPage() {
                   }
                   { confirmDelete != user.id &&
                     <>
-                      <button onClick={() => setConfirmDelete(user.id!)}>Excluir Usuário</button>
-                      <button onClick={() => prepareUpdate(user)}>Editar Usuário</button>
+                      { isRole('Administrador') &&
+                        <button onClick={() => setConfirmDelete(user.id!)}>Excluir Usuário</button>
+                      }
+                      { (isRole('Administrador') || isRole('Gerente') || user.id === currentUserId) &&
+                        <button onClick={() => prepareUpdate(user)}>Editar Usuário</button>
+                      }
                     </>
                   }
                 </div>

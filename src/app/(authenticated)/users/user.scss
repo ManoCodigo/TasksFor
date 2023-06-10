@@ -74,7 +74,8 @@
       background: var(--button-color-default-opacity);
       border-bottom-left-radius: rem(12);
       border-bottom-right-radius: rem(12);
-
+      overflow: hidden;
+      
       button {
         flex: 1 1 rem(150);
         font-size: rem(12);
