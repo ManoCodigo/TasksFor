@@ -4,8 +4,7 @@ export const currentUserId = localStorage.getItem('uid');
 export const currentIdMaster = localStorage.getItem('idMaster');
 export let role: string;
 
-(function initServiceUser() {
-  console.log('>>>>> [SERVER USER INIT] <<<<<');
+(() => {
   getRole();
 })()
 
@@ -15,7 +14,6 @@ async function getRole() {
   .then((data: IUser) => {
     role = data.role;
   });
-  console.log('role >> ', role)
 }
 
 export function isRole(UseRole: string) {
@@ -23,8 +21,4 @@ export function isRole(UseRole: string) {
     return true
   else
     return false;
-}
-
-export async function test() {
-  return fetch(`api/user/user-controller?id=${currentUserId}`);
 }

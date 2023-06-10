@@ -41,7 +41,7 @@ export default function RegisterPage() {
           idMaster: uid,
           email: email,
           name: name,
-          sector: sector,
+          sector: sector ? sector : listSectors[0].label,
           role: 'Administrador',
         });
         localStorage.setItem('uid', uid);
@@ -68,7 +68,7 @@ export default function RegisterPage() {
             <div className="form-login">
               <div className="group-input">
                 <label>Nome:</label>
-                <input type="text" onChange={(name) => setName(name.target.value)}/>
+                <input type="text" max={20} onChange={(name) => setName(name.target.value)}/>
                 { nameMsgError && 
                   <small className="form-error">{ nameMsgError }</small>
                 }
@@ -90,8 +90,8 @@ export default function RegisterPage() {
               <div className="group-input">
                 <label>Setor:</label>
                 <select onChange={(sector) => setSector(sector.target.value)}>
-                  { listSectors?.map((res, index) => (
-                    <option key={index} value={res.label}>{res.label}</option>
+                  { listSectors?.map((sector, index) => (
+                    <option key={index} value={sector.label}>{sector.label}</option>
                     )) 
                   }
                 </select>

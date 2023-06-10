@@ -2,17 +2,18 @@
 
 import './user.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquare, faCheckSquare, faStar, faStarHalfAlt} from '@fortawesome/free-regular-svg-icons';
+import { faSquare, faCheckSquare, faStarHalfAlt, faUserCircle} from '@fortawesome/free-regular-svg-icons';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
+import { fas, faUserShield } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
 import { useEffect, useState } from 'react';
 import { IUser } from '@/app/interfaces/user.interface';
 import ModalForm from '../../../../components/modalForm/modalForm';
-import jwt from 'jsonwebtoken';
 import { currentIdMaster, currentUserId, isRole, role } from './user-service';
+import { listSectors } from '@/app/utils/lists/list-sectors';
+import { listRoles } from '@/app/utils/lists/list-roles';
 
 // export const metadata = {
 //   title: 'Equipe | TasksFor',
@@ -93,13 +94,16 @@ export default function UsersPage() {
 
   function submit(e: any) {
     e.preventDefault();
-    actionSubmit(user);
+    actionSubmit(user!);
   }
 
-  function actionSubmit(user: any) {
+  function actionSubmit(user: IUser) {
     switch (typeForm) {
       case 'create':
-        user.idMaster = currentUserId;
+        user.idMaster = currentUserId!;
+        user.sector = user.sector ? user.sector : listSectors[0].label;
+        user.role = user.role ? user.role : listRoles[0].label;
+        console.log(user)
         createUser(user);
         break;
       case 'update':
@@ -153,7 +157,7 @@ export default function UsersPage() {
                 <div className="card-info">
                   <p>
                     <span>{user.name}</span> 
-                    {user.id === user.idMaster  && <FontAwesomeIcon icon={faStarHalfAlt}/>}
+                    {user.id === user.idMaster  && <FontAwesomeIcon icon={faUserShield} />}
                   </p>
                   <p><strong>• Email:</strong>{user.email}</p>
                   <p><strong>• Setor:</strong>{user.sector}</p>

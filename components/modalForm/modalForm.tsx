@@ -11,12 +11,6 @@ import { listRoles } from '@/app/utils/lists/list-roles';
 import { listSectors } from '@/app/utils/lists/list-sectors';
 library.add(fas);
 
-
-type ModalFormProps = {
-  title: string;
-  user: IUser;
-}
-
 const ModalForm = (props: any) => {
   const { title, hidden, user, setUser, showModal, submit, typeForm } = props;
 
