@@ -11,9 +11,9 @@ library.add(fas);
 import { useEffect, useState } from 'react';
 import { IUser } from '@/app/interfaces/user.interface';
 import ModalForm from '../../../../components/modalForm/modalForm';
-import { currentIdMaster, currentUserId, isRole, role } from './user-service';
 import { listSectors } from '@/app/utils/lists/list-sectors';
 import { listRoles } from '@/app/utils/lists/list-roles';
+import { currentIdMaster, currentUserId, isRole } from './user-service';
 
 // export const metadata = {
 //   title: 'Equipe | TasksFor',
@@ -22,7 +22,7 @@ import { listRoles } from '@/app/utils/lists/list-roles';
 
 export default function UsersPage() {
 
-  const pathApi = '/api/user/user-controller'
+  const pathApi = '/api/user/user-controller';
 
   const [lstUser, setLstUser] = useState<IUser[]>([]);
   const [user, setUser] = useState<IUser>();
@@ -151,52 +151,48 @@ export default function UsersPage() {
       </section>
 
       <section className="container-list-user">
-        {lstUser?.length > 0 ? (
-            lstUser.map((user: IUser) => (
-              <div key={user.id} className="box-card">
-                <div className="card-info">
-                  <p>
-                    <span>{user.name}</span> 
-                    {user.id === user.idMaster  && <FontAwesomeIcon icon={faUserShield} />}
-                  </p>
-                  <p><strong>• Email:</strong>{user.email}</p>
-                  <p><strong>• Setor:</strong>{user.sector}</p>
-                  <p><strong>• Permissão:</strong>{user.role}</p>
-                  <p>
-                    <strong>• Tarefas:</strong> 
-                    <span>
-                      <FontAwesomeIcon icon={faSquare}/>
-                      <span>10</span>
-                    </span>
-                    <span>
-                      <FontAwesomeIcon icon={faCheckSquare}/>
-                      <span>10</span>
-                    </span>
-                  </p>
-                </div>
-                <div className="card-actions">
-                  { confirmDelete === user.id &&
-                    <>
-                      <button onClick={() => deleteUser(user.id!)} className="btn-confirm">Confirmar</button>
-                      <button onClick={() => setConfirmDelete('')}>Cancelar</button>
-                    </>
+        {lstUser.map((user: IUser) => (
+          <div key={user.id} className="box-card">
+            <div className="card-info">
+              <p>
+                <span>{user.name}</span> 
+                {user.id === user.idMaster && <FontAwesomeIcon icon={faUserShield} />}
+              </p>
+              <p><strong>• Email:</strong>{user.email}</p>
+              <p><strong>• Setor:</strong>{user.sector}</p>
+              <p><strong>• Permissão:</strong>{user.role}</p>
+              <p>
+                <strong>• Tarefas:</strong> 
+                <span>
+                  <FontAwesomeIcon icon={faSquare}/>
+                  <span>10</span>
+                </span>
+                <span>
+                  <FontAwesomeIcon icon={faCheckSquare}/>
+                  <span>10</span>
+                </span>
+              </p>
+            </div>
+            <div className="card-actions">
+              { confirmDelete === user.id &&
+                <>
+                  <button onClick={() => deleteUser(user.id!)} className="btn-confirm">Confirmar</button>
+                  <button onClick={() => setConfirmDelete('')}>Cancelar</button>
+                </>
+              }
+              { confirmDelete != user.id &&
+                <>
+                  { isRole('Administrador') &&
+                    <button onClick={() => setConfirmDelete(user.id!)}>Excluir Usuário</button>
                   }
-                  { confirmDelete != user.id &&
-                    <>
-                      { isRole('Administrador') &&
-                        <button onClick={() => setConfirmDelete(user.id!)}>Excluir Usuário</button>
-                      }
-                      { (isRole('Administrador') || isRole('Gerente') || user.id === currentUserId) &&
-                        <button onClick={() => prepareUpdate(user)}>Editar Usuário</button>
-                      }
-                    </>
+                  { (isRole('Administrador') || isRole('Gerente') || user.id === currentUserId) &&
+                    <button onClick={() => prepareUpdate(user)}>Editar Usuário</button>
                   }
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>Nenhum usuário encontrado.</p>
-          )}
+                </>
+              }
+            </div>
+          </div>
+        ))}
       </section>
 
       <ModalForm

@@ -1,17 +1,21 @@
 import { IUser } from "@/app/interfaces/user.interface";
 
-export const currentUserId = localStorage.getItem('uid');
-export const currentIdMaster = localStorage.getItem('idMaster');
+export let currentUserId = localStorage.getItem('uid');
+export let currentIdMaster: string;
 export let role: string;
 
-(() => {
-  getRole();
+(async () => {
+  await getRole();
+  console.log('currentUserId >> ', currentUserId!)
+  console.log('currentIdMaster >> ', currentIdMaster!)
+  console.log('role >> ', role!)
 })()
 
 async function getRole() {
   await fetch(`api/user/user-controller?id=${currentUserId}`)
   .then((res) => res.json())
   .then((data: IUser) => {
+    currentIdMaster = data.idMaster!;
     role = data.role;
   });
 }

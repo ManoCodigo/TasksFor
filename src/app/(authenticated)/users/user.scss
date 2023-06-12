@@ -48,6 +48,10 @@
           letter-spacing: rem(3);
           margin-bottom: rem(10);
           justify-content: space-between;
+          
+          svg {
+            font-size: 20px;
+          }
         }
 
         span {

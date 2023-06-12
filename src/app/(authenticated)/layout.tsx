@@ -91,3 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode } )
     </>
   )
 }
+function getRole() {
+  throw new Error('Function not implemented.');
+}
+
