@@ -1,14 +1,13 @@
 "use client";
 
-import '../../src/app/globals.scss'
+import '../../src/globals.scss'
 import './modal-form.scss'
-import { IUser } from "@/app/interfaces/user.interface";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { listRoles } from '@/app/utils/lists/list-roles';
-import { listSectors } from '@/app/utils/lists/list-sectors';
+import { listRoles } from '@/utils/lists/list-roles';
+import { listSectors } from '@/utils/lists/list-sectors';
 library.add(fas);
 
 const ModalForm = (props: any) => {

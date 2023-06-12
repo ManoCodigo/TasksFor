@@ -5,11 +5,11 @@ import "../../globals.scss";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { auth, firestore } from "../../../../services/firebase";
+import { auth, firestore } from "../../../services/firebase";
 import { APP_ROUTES } from "@/constants/app-routes";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc, collection } from "firebase/firestore";
-import { listSectors } from "@/app/utils/lists/list-sectors";
+import { listSectors } from "@/utils/lists/list-sectors";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',
@@ -29,6 +29,14 @@ export default function RegisterPage() {
   const [sector, setSector] = useState('');
 
   const userRef = collection(firestore, 'users');
+
+  auth.onAuthStateChanged(userLogged => {
+    if(userLogged)
+      router.push(APP_ROUTES.private.home)
+      
+    console.log('onAuthStateChanged LOGOUT >> ', userLogged)
+  })
+
 
   async function singUp() {
     if(name.trim()) {
@@ -61,7 +69,7 @@ export default function RegisterPage() {
 
   return (
     <>
-      <section>
+      <section className="container">
         <form onSubmit={(e) => {singUp(), e.preventDefault()} }>
           <div className="form-container">
             <h1>REGISTRAR</h1>

@@ -7,9 +7,9 @@ import { faSquare, faCheckSquare } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserShield, fas } from '@fortawesome/free-solid-svg-icons';
 import { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
-import { IUser } from '@/app/interfaces/user.interface';
-import { ITask } from '@/app/interfaces/task.interface';
-import { currentIdMaster, currentUserId, isRole } from '../users/user-service';
+import { ITask } from '@/interfaces/task.interface';
+import { IUser } from '@/interfaces/user.interface';
+import { currentIdMaster, currentUserId, isRole } from '../../../services/auth';
 library.add(fas);
 
 export default function TasksPage() {
@@ -176,7 +176,7 @@ export default function TasksPage() {
                       {(isRole('Administrador') || isRole('Gerente') || isCurrentUser()) && 
                         <input type="checkbox" defaultChecked={task.checked} onChange={(e) => updateTaskChecked(task!, e)}/>
                       }
-                      { isRole('Funcionário') && !isCurrentUser() && <>•</> }
+                      { isRole('Funcionário') && !isCurrentUser() && <span className={`${task.checked ? 'task-checked-point' : ''}`}>•</span> }
                       <input type="text" defaultValue={task.description} readOnly={(isRole('Funcionário') && !isCurrentUser() || task.checked)} 
                         className={`${task.checked ? 'task-checked' : ''}`} onBlur={(e) => updateTaskDescription(task!, e)}/>
                     </div>

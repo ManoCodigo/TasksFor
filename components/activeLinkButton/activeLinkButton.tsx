@@ -1,6 +1,6 @@
 import Link, { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
-import '../../src/app/(authenticated)/home.scss';
+import '../../src/app/home.scss';
 
 type ActiveLinkProps = {
   title: string

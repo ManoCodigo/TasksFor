@@ -2,18 +2,18 @@
 
 import './user.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquare, faCheckSquare, faStarHalfAlt, faUserCircle} from '@fortawesome/free-regular-svg-icons';
+import { faSquare, faCheckSquare} from '@fortawesome/free-regular-svg-icons';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas, faUserShield } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
 import { useEffect, useState } from 'react';
-import { IUser } from '@/app/interfaces/user.interface';
-import ModalForm from '../../../../components/modalForm/modalForm';
-import { listSectors } from '@/app/utils/lists/list-sectors';
-import { listRoles } from '@/app/utils/lists/list-roles';
-import { currentIdMaster, currentUserId, isRole } from './user-service';
+import ModalForm from '../../../components/modalForm/modalForm';
+import { listSectors } from '@/utils/lists/list-sectors';
+import { listRoles } from '@/utils/lists/list-roles';
+import { IUser } from '@/interfaces/user.interface';
+import { currentIdMaster, currentUserId, isRole } from '../../../services/auth';
 
 // export const metadata = {
 //   title: 'Equipe | TasksFor',

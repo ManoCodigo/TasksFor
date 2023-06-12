@@ -1,14 +1,15 @@
 import { useRouter } from "next/navigation"
 import { APP_ROUTES } from "./app-routes";
-import { currentUserId } from "@/app/(authenticated)/users/user-service";
+import { currentUser, getRole, isUserLogged } from "../../services/auth";
+import { auth } from "../../services/firebase";
 
 const PrivateRoute = ({ children }: { children: React.ReactNode } ) => {
   const router = useRouter();
-  const isUserAutheticade = currentUserId;
+  const isUserAutheticade = isUserLogged();
 
   if(!isUserAutheticade)
     router.push(APP_ROUTES.public.login);
-
+  
   return (
     <>
      { !isUserAutheticade && null }
