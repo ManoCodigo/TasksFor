@@ -22,10 +22,6 @@ export async function getRole(uid: string) {
     currentIdMaster = data.idMaster!;
     role = data.role;
   });
-
-  console.log('currentUserId >> ', currentUserId!)
-  console.log('currentIdMaster >> ', currentIdMaster!)
-  console.log('role >> ', role!)
 }
 
 export function isRole(UseRole: string) {
@@ -62,5 +58,17 @@ export async function logIn(email: string, password: string) {
 export async function logOut() {
   signOut(auth).then(() => {
     localStorage.removeItem('uid');
+    currentUser = {
+      id: '',
+      idMaster: '',
+      name: '',
+      email: '',
+      password: '',
+      sector: '',
+      role: ''
+    }
+    currentUserId = '';
+    currentIdMaster ='';
+    role = '';
   });
 }

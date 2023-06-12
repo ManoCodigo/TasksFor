@@ -56,8 +56,6 @@ export default function RegisterPage() {
   
         router.push(APP_ROUTES.private.home);
       }).catch(err => {
-        console.log('error REGISTER >> ', err);
-  
         err.code === 'auth/invalid-email' ? setEmailMsgError(err.message) : setEmailMsgError('');
         err.code === 'auth/weak-password' ? setEmailMsgPassword(err.message) : setEmailMsgPassword('');
       }).finally(() => setloading(false));

@@ -2,11 +2,10 @@
 
 import "../login-register.scss";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { APP_ROUTES } from "@/constants/app-routes";
-import { auth } from "../../../services/firebase";
-import { currentUser, isUserLogged, logIn } from "../../../services/auth";
+import { logIn } from "../../../services/auth";
 
 // export const metadata = {
 //   title: 'Login | TasksFor',

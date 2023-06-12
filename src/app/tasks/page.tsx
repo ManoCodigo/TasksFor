@@ -30,7 +30,6 @@ export default function TasksPage() {
       .then((res) => res.json())
       .then((data) => {
         setLstUser(data);
-        console.log(data)
         if(lstTasks.length === 0) 
           getTasksByUser(data[0]);
       });
@@ -83,7 +82,6 @@ export default function TasksPage() {
     if(newDesc != currentDesc && newDesc)  {
       await fetch(`${pathApiTask}?id=${task.id}`, requestOptions)
         .finally(() => {
-          console.log('finally UPDATE')
           setDescripiton('');
           getTasksByUser(focusedUser!);
         });
@@ -101,7 +99,6 @@ export default function TasksPage() {
 
     await fetch(`${pathApiTask}?id=${task.id}`, requestOptions)
       .finally(() => {
-        console.log('finally UPDATE CEHCK')
         setDescripiton('');
         getTasksByUser(focusedUser!);
       });
@@ -113,10 +110,8 @@ export default function TasksPage() {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     };
-    console.log('id > ', id)
     await fetch(`${pathApiTask}?id=${id}`, requestOptions)
     .finally(() => {
-      console.log('finally DELETE')
       setDescripiton('');
       getTasksByUser(focusedUser!);
     })
@@ -142,17 +137,6 @@ export default function TasksPage() {
                   {user.id === user.idMaster && <FontAwesomeIcon icon={faUserShield} />}
                   </p>
                 <p><strong>• Setor:</strong> {user.sector}</p>
-                <p>
-                  <strong>• Tarefas:</strong> 
-                  <span>
-                    <FontAwesomeIcon icon={faSquare}/>
-                    <span>10</span>
-                  </span>
-                  <span>
-                    <FontAwesomeIcon icon={faCheckSquare}/>
-                    <span>10</span>
-                  </span>
-                </p>
               </div>
           ))}
           </div>

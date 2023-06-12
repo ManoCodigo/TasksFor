@@ -52,11 +52,9 @@ export default function UsersPage() {
     };
 
     await fetch(pathApi, requestOptions)
-    .then(() => console.log("Create - User") )
     .finally(() => {
       getAllUsers();
       showModal();
-      console.log('finally')
     });
   }
 
@@ -68,7 +66,6 @@ export default function UsersPage() {
     };
 
     await fetch(`${pathApi}?id=${user.id}`, requestOptions)
-      .then(() => console.log("update - users") )
       .finally(() => {
         getAllUsers();
         showModal();
@@ -82,7 +79,6 @@ export default function UsersPage() {
     };
 
     await fetch(`${pathApi}?id=${id}`, requestOptions)
-      .then(() => console.log("Delete - User") )
       .finally(() => {
         getAllUsers();
       });
@@ -103,7 +99,6 @@ export default function UsersPage() {
         user.idMaster = currentUserId!;
         user.sector = user.sector ? user.sector : listSectors[0].label;
         user.role = user.role ? user.role : listRoles[0].label;
-        console.log(user)
         createUser(user);
         break;
       case 'update':
@@ -161,17 +156,6 @@ export default function UsersPage() {
               <p><strong>• Email:</strong>{user.email}</p>
               <p><strong>• Setor:</strong>{user.sector}</p>
               <p><strong>• Permissão:</strong>{user.role}</p>
-              <p>
-                <strong>• Tarefas:</strong> 
-                <span>
-                  <FontAwesomeIcon icon={faSquare}/>
-                  <span>10</span>
-                </span>
-                <span>
-                  <FontAwesomeIcon icon={faCheckSquare}/>
-                  <span>10</span>
-                </span>
-              </p>
             </div>
             <div className="card-actions">
               { confirmDelete === user.id &&
