@@ -44,7 +44,84 @@ main {
   background-color: var(--bg-color-white-opacity-90);
   border-bottom-left-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
+
+    //PAGE
+  .content-section {
+    max-height: 600px;
+    display: grid;
+    gap: 30px;
+    overflow: auto;
+
+    section {
+    
+      h2 {
+        margin-bottom: 5px;
+      }
+      p, li {
+        font-size: rem(18);
+      }
+
+      ul {
+        display: grid;
+        gap: 15px;
+        margin-top: 0;
+
+        li {
+          list-style-type: disc !important;
+        }
+      }
+    }
+
+    .container-list-user {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+
+      a {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        h3 {
+          color: black;
+          font-family: monospace;
+          font-size: 26px;
+          font-style: italic;
+        }
+
+        small {
+          color: gray;
+          font-family: monospace;
+          font-size: 18px;
+          letter-spacing: 8px;
+        }
+      }
+    }
+  }
 }
 
+// section {
+    
+//   p{
+//     font-size: 20px;
+//   }
+//   h2{
+//     font-size: 25px;
 
-//PAGE
+//   }
+
+//   h3{
+//     font-size: 25px;
+//     font-family: 'Courier New'
+//   }
+//   h4{
+//     font-size: 25px;
+//     font-family: 'Courier New'
+//   }
+
+//   h5{
+//     font-size: 25px;
+//     font-family: 'Courier New', Courier, monospace;
+//   }
+// }
